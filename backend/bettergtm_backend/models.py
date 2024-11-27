@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+
 # Create your models here.
 
 #* A USER CAN...
@@ -9,6 +10,14 @@ from django.contrib.auth.models import User
 #* Be assigned to a release, Be assigned to a team, Be assigned to a role
 #* Be assigned release activities, Process release activities
 #* Teams will be a collection of users that can be assigned to a release
+
+class Customer(models.Model):
+  name = models.CharField(max_length=100)
+  city = models.CharField(max_length=100)
+  state = models.CharField(max_length=100)
+  country = models.CharField(max_length=100)
+  zip_code = models.CharField(max_length=100, null=True)
+
 class Team(models.Model):
   User = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=100)
@@ -34,6 +43,7 @@ class Profile(models.Model):
   last_name = models.CharField(max_length=100)
   Team = models.ForeignKey(Team, on_delete=models.CASCADE)
   Role = models.ForeignKey(Role, on_delete=models.CASCADE)
+  Company = models.ForeignKey(Customer, on_delete=models.CASCADE)
 
 
 

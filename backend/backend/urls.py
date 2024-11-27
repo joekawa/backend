@@ -19,6 +19,6 @@ from django.urls import include, path
 from bettergtm_backend.views import index
 
 urlpatterns = [
-    path('index', include("bettergtm_backend.urls")),
+    path('', include("bettergtm_backend.urls")),
     path('admin/', admin.site.urls),
 ]
