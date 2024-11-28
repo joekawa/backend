@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello, world.")
+    return render(request, 'index.html')
 
 
 def customer(request):
@@ -23,3 +23,7 @@ def release(request):
 
 def release_activity(request):
     return HttpResponse("Hello, release activity.")
+
+
+def login(request):
+    return render(request, 'login.html')
