@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from bettergtm_backend.views import index
+
 
 urlpatterns = [
-    path('', include("bettergtm_backend.urls")),
     path('admin/', admin.site.urls),
+    path('', include("bettergtm_backend.urls")),
 ]
