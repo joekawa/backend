@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout, login, authenticate
-from .forms import LoginForm
+from .forms import LoginForm, CreateUserForm
+from .models import Profile
+from django.contrib.auth.models import User
 
 def index(request):
     return render(request, 'index.html')
@@ -43,3 +45,25 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('bettergtm_backend:login')
+
+
+def create_user(request):
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password1')
+            email = form.cleaned_data.get('email')
+            first_name = form.cleaned_data.get('first_name')
+            last_name = form.cleaned_data.get('last_name')
+            team = form.cleaned_data.get('team')
+            user = User.objects.create_user(username=username, password=password)
+            profile = Profile.objects.create(user=user, first_name=first_name,
+                                             last_name=last_name,
+                                             team=team)
+            user.save()
+            profile.save()
+            return redirect('bettergtm_backend:create_user')
+    else:
+        form = CreateUserForm()
+    return render(request, 'create_user.html', {'form': form})

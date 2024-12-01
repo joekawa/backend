@@ -38,12 +38,12 @@ class Role(models.Model):
 
 
 class Profile(models.Model):
-  User = models.OneToOneField(User, on_delete=models.CASCADE)
-  fiirst_name = models.CharField(max_length=100)
+  user = models.OneToOneField(User, on_delete=models.CASCADE)
+  first_name = models.CharField(max_length=100)
   last_name = models.CharField(max_length=100)
-  Team = models.ForeignKey(Team, on_delete=models.CASCADE)
-  Role = models.ForeignKey(Role, on_delete=models.CASCADE)
-  Company = models.ForeignKey(Customer, on_delete=models.CASCADE)
+  team = models.ForeignKey(Team, on_delete=models.CASCADE)
+  role = models.ForeignKey(Role, on_delete=models.CASCADE, null=True)
+  company = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
 
 
 

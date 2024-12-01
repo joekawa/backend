@@ -32,6 +32,7 @@
     <li class='list-group-item'>Contact</li>
     <li class='list-group-item'>Login</li>
     <li class='list-group-item'><a href="{% url 'bettergtm_backend:logout' %}">Logout</a></li>
+    <li class='list-group-item'><a href="{% url 'bettergtm_backend:create_user' %}">Create User</a></li>
     <!--* ADDED CHECK FOR USER LOGIN-->
     <li class='list-group-item'>{{ user.username }}</li>
   </ul>
