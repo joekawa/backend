@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout, login, authenticate
-from .forms import LoginForm, CreateUserForm, UpdateUserForm
+from .forms import LoginForm, CreateUserForm, UpdateProfileForm, UpdateUserForm
 from .models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     return render(request, 'index.html')
@@ -17,18 +18,12 @@ def team(request):
     return HttpResponse("Hello, team.")
 
 
+#*POPULATE TWO FORMS AND RETURN WITH EDITABLE FIELDS TO THE HTML
 def profile(request):
-    user = User.objects.get(id=request.user.id)
-    profile = Profile.objects.get(user=user)
-    form = UpdateUserForm()
-    form.fields['username'].initial = user.username
-    form.fields['email'].initial = user.email
-    form.fields['first_name'].initial = profile.first_name
-    form.fields['last_name'].initial = profile.last_name
-    form.fields['team'].initial = profile.team.name
-    form.fields['is_active'].initial = user.is_active
+    user_form = UpdateUserForm(instance=request.user)
+    profile_form = UpdateProfileForm(instance=request.user.profile)
     return render(request, 'profile.html',
-                  {'form': form})
+                  {'user_form': user_form, 'profile_form': profile_form})
 
 def release(request):
     return HttpResponse("Hello, release.")
@@ -93,6 +88,23 @@ def forgot_password(request):
     return render(request, 'index.html')
 
 
-def update_user(request):
-    return render(request, 'index.html')
 
+#* GET DATA FROM PROFILE VIEW AND UPDATE PROFILE IF DATA IS VALID
+#! NEED TO ADD TEAM SWITCHING FUNCTIOINALITY BUT THIS WORKS AND IS TESTED
+#! INCOMPLETE FUNCTIONALITY
+@login_required
+def update_user(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('bettergtm_backend:index')
+        else:
+            profile_form = UpdateProfileForm(instance=request.user.profile)
+            user_form = UpdateUserForm(instance=request.user)
+            return render(request, 'profile.html',
+                        {'user_form': user_form})
+    return render(request, 'profile.html', {'user_form': user_form,
+                                            'profile_form': profile_form})

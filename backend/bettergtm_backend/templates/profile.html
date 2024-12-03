@@ -10,19 +10,22 @@
 
     <h1 class="h3 mb-3 fw-normal">Update User</h1>
     <div class='form-group' >
-        {{ form.username }}
+        {{ user_form.username }}
       </div>
       <div class='form-group'>
-        {{ form.email }}
+        {{ user_form.email }}
       </div>
       <div class='form-group'>
-        {{ form.first_name }}
+        {{ user_form.is_active }}
+      </div>
+    <div class='form-group'>
+        {{ profile_form.first_name }}
       </div>
       <div class='form-group'>
-        {{ form.last_name }}
+        {{ profile_form.last_name }}
       </div>
       <div class='form-group'>
-        {{ form.team }}
+        {{ profile_form.team }}
       </div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Update User</button>
   </form>
