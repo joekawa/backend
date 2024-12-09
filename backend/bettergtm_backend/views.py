@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout, login, authenticate
-from .forms import LoginForm, CreateUserForm, UpdateProfileForm, UpdateUserForm
-from .models import Profile
+from .forms import LoginForm, CreateUserForm, UpdateProfileForm, UpdateUserForm, CreateCustomerForm, UpdateCustomerForm
+from .models import Profile, Customer
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.views.generic.list import ListView
 
 def index(request):
     return render(request, 'index.html')
@@ -97,7 +98,7 @@ def update_user(request):
     if request.method == 'POST':
         user_form = UpdateUserForm(request.POST, instance=request.user)
         profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
-        if user_form.is_valid and profile_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             return redirect('bettergtm_backend:index')
@@ -108,3 +109,43 @@ def update_user(request):
                         {'user_form': user_form})
     return render(request, 'profile.html', {'user_form': user_form,
                                             'profile_form': profile_form})
+
+
+@login_required
+def create_customer(request):
+    if request.method == 'POST':
+        form = CreateCustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bettergtm_backend:create_customer')
+    else:
+        form = CreateCustomerForm()
+    return render(request, 'create_customer.html', {'form': form})
+
+
+@login_required
+def customer_list_view(request):
+    customers = Customer.objects.all()
+    return render(request, 'customer_list.html', {'customers': customers})
+
+
+def customer_detail(request, customer_id):
+    customer = Customer.objects.get(id=customer_id)
+    form = UpdateCustomerForm(instance=customer)
+
+    return render(request, 'customer_detail.html', {'form': form, 'customer': customer})
+
+
+@login_required
+def update_customer(request, customer_id):
+    if request.method == 'POST':
+        customer = Customer.objects.get(id=customer_id)
+        form = UpdateCustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('bettergtm_backend:index')
+        else:
+            form = UpdateCustomerForm(instance=customer)
+            return render(request, 'customer_detail.html',
+                        {'form': form})
+    return render(request, 'customer_detail.html', {'form': form})

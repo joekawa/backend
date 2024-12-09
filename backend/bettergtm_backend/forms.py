@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Select
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Select
-from .models import Profile
+from .models import Profile, Customer, Team, Release, ReleaseActivity, Goals, Outputs
 from django.contrib.auth.models import User
 
 class LoginForm(AuthenticationForm):
@@ -60,3 +60,89 @@ class UpdateUserForm(ModelForm):
       class Meta:
             model = User
             fields = ['username', 'email', 'is_active']
+
+
+class CreateCustomerForm(ModelForm):
+
+      class Meta:
+            model = Customer
+            fields = ['name', 'country', 'city', 'state', 'zip_code']
+            widgets = {
+                  "name": TextInput(attrs={"class": "form-control",
+                                           "placeholder":"Customer Name"}),
+                  "country": TextInput(attrs={"class": "form-control",
+                                              "placeholder": "Country"}),
+                  "city": TextInput(attrs={"class": "form-control",
+                                           "placeholder": "City"}),
+                  "state": TextInput(attrs={"class": "form-control",
+                                            "placeholder": "State"}),
+                  "zip_code": TextInput(attrs={"class": "form-control",
+                                               "placeholder": "Zip Code"}),
+            }
+
+#! FORM NOT FINISHED
+class UpdateCustomerForm(ModelForm):
+
+      class Meta:
+            model = Customer
+            fields = ['name', 'country', 'city', 'state', 'zip_code']
+            widgets = {
+                  "name": TextInput(attrs={"class": "form-control",
+                                           "placeholder":"Customer Name"}),
+                  "country": TextInput(attrs={"class": "form-control",
+                                              "placeholder": "Country"}),
+                  "city": TextInput(attrs={"class": "form-control",
+                                           "placeholder": "City"}),
+                  "state": TextInput(attrs={"class": "form-control",
+                                            "placeholder": "State"}),
+                  "zip_code": TextInput(attrs={"class": "form-control",
+                                               "placeholder": "Zip Code"}),
+            }
+
+
+#! FORM NOT FINISHED
+class CreateTeamForm(ModelForm):
+
+      class Meta:
+            model = Team
+            fields = ['name']
+
+
+#! FORM NOT FINISHED
+class UpdateTeamForm(ModelForm):
+      class Meta:
+            model = Team
+            fields = ['name']
+
+#! FORM NOT FINISHED
+class CreateReleaseForm(ModelForm):
+
+      class Meta:
+            model = Release
+            fields = ['name', 'status', 'release_date']
+
+
+#! FORM NOT FINISHED
+class UpdateReleaseForm(ModelForm):
+
+      class Meta:
+            model = Release
+            fields = ['name']
+
+
+#! FORM NOT FINISHED
+class CreateReleaseActivityForm(ModelForm):
+
+      class Meta:
+            model = ReleaseActivity
+            fields = ['name']
+
+
+#! FORM NOT FINISHED
+class UpdateReleaseActivityForm(ModelForm):
+
+      class Meta:
+            model = ReleaseActivity
+            fields = ['name']
+
+

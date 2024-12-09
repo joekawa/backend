@@ -2,6 +2,7 @@ from django.urls import path
 
 from . import views
 
+
 app_name = "bettergtm_backend"
 
 urlpatterns = [
@@ -17,5 +18,9 @@ urlpatterns = [
     path('deactivate_user/', views.deactivate_user, name='deactivate_user'),
     path('change_password/', views.change_password, name='change_password'),
     path('forgot_password/', views.forgot_password, name='forgot_password'),
-    path('update_user', views.update_user, name='update_user'),
+    path('update_user', views.update_user, name='upd    ate_user'),
+    path('create_customer', views.create_customer, name='create_customer'),
+    path('customer_list',  views.customer_list_view, name='customer_list'),
+    path('customer_detail/<customer_id>',  views.customer_detail  , name='customer_detail'),
+    path('update_customer/<customer_id>',  views.update_customer  , name='update_customer'),
 ]
