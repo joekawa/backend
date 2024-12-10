@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Select
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Select
-from .models import Profile, Customer, Team, Release, ReleaseActivity, Goals, Outputs
+from .models import Profile, Customer, Team, Release, ReleaseActivity, Goals, Outputs, Team, Role, Release, ReleaseActivity, Goals
 from django.contrib.auth.models import User
 
 class LoginForm(AuthenticationForm):
@@ -146,3 +146,49 @@ class UpdateReleaseActivityForm(ModelForm):
             fields = ['name']
 
 
+#* FORMS TO BUILD
+#* CREATE:  Team, Role, Release, ReleaseActivity, Goals, Outputs
+#* EDIT: Team, Role, Release, ReleaseActivity, Goals, Outputs
+#! NOTE I THINK I CAN REUSUE THE BASE FORMS FOR BOTH CREATE AND EDIT FUNCTIONS
+
+class TeamForm(ModelForm):
+
+      class Meta:
+            model = Team
+            fields = ['name', 'short_name', 'description']
+            widgets = {
+                  "name": TextInput(attrs={"class": "form-control",
+                                           "placeholder":"Team Name"}),
+                  "short_name": TextInput(attrs={"class": "form-control",
+                                              "placeholder": "Short Name"}),
+                  "description": TextInput(attrs={"class": "form-control",
+                                           "placeholder": "Description"})
+            }
+
+
+class RoleForm(ModelForm):
+
+      class Meta:
+            model = Role
+            fields = ['name', 'description']
+
+
+class ReleaseForm(ModelForm):
+
+      class Meta:
+            model = Release
+            fields = ['name', 'release_date', 'description', 'status', 'type']
+
+
+class ReleaseActivityForm(ModelForm):
+
+      class Meta:
+            model = ReleaseActivity
+            fields = ['name', 'description', 'due_date', 'status', 'assigned_to', 'team_assignment']
+
+
+class GoalsForm(ModelForm):
+
+      class Meta:
+            model = Goals
+            fields = ['name', 'description', 'goal_value', 'goal_type', 'actual_value', 'goal_due_date']

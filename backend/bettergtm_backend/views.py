@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout, login, authenticate
-from .forms import LoginForm, CreateUserForm, UpdateProfileForm, UpdateUserForm, CreateCustomerForm, UpdateCustomerForm
+from .forms import *
 from .models import Profile, Customer
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from django.views.generic.list import ListView
-
+from django.views.generic import ListView
 def index(request):
     return render(request, 'index.html')
 
@@ -149,3 +148,45 @@ def update_customer(request, customer_id):
             return render(request, 'customer_detail.html',
                         {'form': form})
     return render(request, 'customer_detail.html', {'form': form})
+
+
+
+
+def teams(request):
+    teams = Team.objects.all()
+    return render(request, 'teams.html', {'teams': teams})
+
+
+#* NEED TO CREATE VIEWS FOR CRUD FOR TEAM, ROLE, ACTIVITY, RELEASE, RELEASE ACTIVITY, GOALS
+
+def create_team(request):
+    if request.method == 'POST':
+        form = TeamForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('bettergtm_backend:create_team')
+    else:
+        form = TeamForm()
+    return render(request, 'create_team.html', {'form': form})
+
+
+def team_detail(request, team_id):
+    team = Team.objects.get(id=team_id)
+    form = TeamForm(instance=team)
+
+    return render(request, 'team_detail.html', {'form': form, 'team': team})
+
+
+@login_required
+def update_team(request, team_id):
+    if request.method == 'POST':
+        team = Team.objects.get(id=team_id)
+        form = TeamForm(request.POST, instance=team,)
+        if form.is_valid():
+            form.save()
+            return redirect('bettergtm_backend:team_detail', team_id=team.id)
+        else:
+            form = TeamForm(instance=team)
+            return render(request, 'team_detail.html',
+                        {'form': form})
+    return render(request, 'team_detail.html', {'form': form}) #*NEED TO FIX

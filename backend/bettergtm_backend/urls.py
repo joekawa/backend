@@ -21,6 +21,10 @@ urlpatterns = [
     path('update_user', views.update_user, name='upd    ate_user'),
     path('create_customer', views.create_customer, name='create_customer'),
     path('customer_list',  views.customer_list_view, name='customer_list'),
+    path('create_team',  views.create_team, name='create_team'),
+    path('teams',  views.teams, name='teams'),
     path('customer_detail/<customer_id>',  views.customer_detail  , name='customer_detail'),
+    path('team_detail/<team_id>',  views.team_detail  , name='team_detail'),
     path('update_customer/<customer_id>',  views.update_customer  , name='update_customer'),
+    path('update_team/<team_id>',  views.update_team  , name='update_team'),
 ]

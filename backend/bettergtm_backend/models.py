@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 #* Share a release, Close a release, Approve release activities
 #* Be assigned to a release, Be assigned to a team, Be assigned to a role
 #* Be assigned release activities, Process release activities
-#* Teams will be a collection of users that can be assigned to a release
+#* BE PART OF A TEAM BUT MUST BE ASSIGNED TO A CUSTOMER
 
 class Customer(models.Model):
   name = models.CharField(max_length=100)
@@ -18,8 +18,8 @@ class Customer(models.Model):
   country = models.CharField(max_length=100)
   zip_code = models.CharField(max_length=100, null=True)
 
+#! NEED TO ADD CUSTOMER KEY HERE
 class Team(models.Model):
-  User = models.ForeignKey(User, on_delete=models.CASCADE)
   name = models.CharField(max_length=100)
   short_name = models.CharField(max_length=10, null=True) #* Short name for team i.e. PMM for Product Marketing Managers
   description = models.TextField(null=True)
