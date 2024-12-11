@@ -27,4 +27,8 @@ urlpatterns = [
     path('team_detail/<team_id>',  views.team_detail  , name='team_detail'),
     path('update_customer/<customer_id>',  views.update_customer  , name='update_customer'),
     path('update_team/<team_id>',  views.update_team  , name='update_team'),
+    path('create_activity',  views.create_activity  , name='create_activity'),
+    path('create_release',  views.create_release  , name='create_release'),
+    path('create_role',  views.create_role, name='create_role'),
+    path('create_goal',  views.create_goal, name='create_goal'),
 ]
