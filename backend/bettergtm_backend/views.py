@@ -199,7 +199,7 @@ def create_activity(request):
             form.save()
             return redirect('bettergtm_backend:create_activity')
     else:
-        form = TeamForm()
+        form = ReleaseActivityForm()
     return render(request, 'create_activity.html', {'form': form})
 
 
@@ -207,10 +207,11 @@ def create_release(request):
     if request.method == 'POST':
         form = ReleaseForm(request.POST)
         if form.is_valid():
+            form.request = request
             form.save()
             return redirect('bettergtm_backend:create_release')
     else:
-        form = TeamForm()
+        form = ReleaseForm()
     return render(request, 'create_release.html', {'form': form})
 
 
@@ -221,7 +222,7 @@ def create_role(request):
             form.save()
             return redirect('bettergtm_backend:create_role')
     else:
-        form = TeamForm()
+        form = RoleForm()
     return render(request, 'create_role.html', {'form': form})
 
 
@@ -233,5 +234,5 @@ def create_goal(request):
             form.save()
             return redirect('bettergtm_backend:create_goal')
     else:
-        form = TeamForm()
+        form = GoalsForm()
     return render(request, 'create_goal.html', {'form': form})

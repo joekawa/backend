@@ -61,6 +61,9 @@ class Release(models.Model):
   type = models.CharField(max_length=100)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE)
 
+  def __str__(self):
+    return self.name
+
 
 #* Release Tasks are...
 #* Specific tasks that need to be completed to complete a release

@@ -1,9 +1,13 @@
 from django import forms
-from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Select
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, Select
+from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, DateInput, Select, CharField
 from .models import Profile, Customer, Team, Release, ReleaseActivity, Goals, Outputs, Team, Role, Release, ReleaseActivity, Goals
 from django.contrib.auth.models import User
+
+
+class DateInput(forms.DateInput):
+      input_type='date'
+
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=30, required=True,
@@ -171,23 +175,115 @@ class RoleForm(ModelForm):
       class Meta:
             model = Role
             fields = ['name', 'description']
+            widgets = {
+                  "name":  TextInput(attrs={"class": "form-control",
+                                            "placeholder": "Role Name"}),
+                  "description":  TextInput(attrs={"class": "form-control",
+                                                   "placeholder": "Description"})
+            }
 
 
 class ReleaseForm(ModelForm):
+      name = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Release Name"}))
+      release_date = forms.DateField(widget=DateInput)
+      description = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Description"}))
+      status = CharField(max_length=30, required=True,
+                               widget=Select(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Status"},
+                               choices=[('Not Started', 'Not Started'),
+                                        ('In Progress', 'In Progress'),
+                                        ('Completed', 'Completed')]))
+      type = CharField(max_length=30, required=True,
+                               widget=Select(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Type"},
+                                     choices=[('Tier1', 'Tier 1'),
+                                              ('Tier2', 'Tier 2'),
+                                              ('Tier3', 'Tier 3')]))
 
       class Meta:
             model = Release
             fields = ['name', 'release_date', 'description', 'status', 'type']
 
+      def save(self, commit=True):
+            instance = super().save(commit=False)
+            instance.created_by = self.request.user
+            if commit:
+                  instance.save()
+            return instance
+
+
 
 class ReleaseActivityForm(ModelForm):
+      name = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Release Name"}))
+
+      description = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Description"}))
+
+      due_date = forms.DateField(widget=DateInput)
+      status = CharField(max_length=30, required=True,
+                               widget=Select(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Status"},
+                               choices=[('Not Started', 'Not Started'),
+                                        ('In Progress', 'In Progress'),
+                                        ('Completed', 'Completed')]))
+      assigned_to = forms.ModelChoiceField(
+            queryset=User.objects.all(),
+            widget=Select(attrs={'class': 'form-control',
+                                    'label':'Assigned To'}))
+      release = forms.ModelChoiceField(
+            queryset=Release.objects.all(),to_field_name='name',
+            widget=Select(attrs={'class': 'form-control',
+                                    'label':'Release'}))
+
 
       class Meta:
             model = ReleaseActivity
-            fields = ['name', 'description', 'due_date', 'status', 'assigned_to', 'team_assignment']
+            fields = ['name', 'description', 'due_date', 'status', 'assigned_to',
+                      'team_assignment', 'release']
 
 
 class GoalsForm(ModelForm):
+
+      name = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Goal Name"}))
+
+      description = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Description"}))
+      goal_value = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Goal Value"}))
+      goal_actual_value = CharField(max_length=30, required=True,
+                               widget=TextInput(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Goal Actual Value"}))
+
+      goal_due_date = forms.DateField(widget=DateInput)
+      goal_type = CharField(max_length=30, required=True,
+                               widget=Select(
+                                     attrs={'class': "form-control",
+                                            'placeholder': "Status"},
+                               choices=[('Increase Revenue', 'Increase Revenue'),
+                                        ('Raise NPS', 'Raise NPS'),
+                                        ('REDUCE CHURN', 'REDUCE CHURN')]))
 
       class Meta:
             model = Goals
