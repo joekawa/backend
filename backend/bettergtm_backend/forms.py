@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.forms import ModelForm, TextInput, EmailInput, PasswordInput, DateInput, Select, CharField
-from .models import Profile, Customer, Team, Release, ReleaseActivity, Goals, Outputs, Team, Role, Release, ReleaseActivity, Goals
+from .models import Profile, Customer, Team, Release, ReleaseActivity, Goal, Output, Team, Role, Release, ReleaseActivity
 from django.contrib.auth.models import User
 
 
@@ -256,6 +256,14 @@ class ReleaseActivityForm(ModelForm):
                       'team_assignment', 'release']
 
 
+      def save(self,commit=True):
+            instance = super().save(commit=False)
+            instance.created_by = self.request.user
+            if commit:
+                  instance.save()
+            return instance
+
+
 class GoalsForm(ModelForm):
 
       name = CharField(max_length=30, required=True,
@@ -277,7 +285,7 @@ class GoalsForm(ModelForm):
                                             'placeholder': "Goal Actual Value"}))
 
       goal_due_date = forms.DateField(widget=DateInput)
-      goal_type = CharField(max_length=30, required=True,
+      goal_type = CharField(max_length=30, required=True, #!USERS WILL NEED TO EVENTUALLY CREATE THEIR OWN GOAL TYPES
                                widget=Select(
                                      attrs={'class': "form-control",
                                             'placeholder': "Status"},
@@ -285,6 +293,19 @@ class GoalsForm(ModelForm):
                                         ('Raise NPS', 'Raise NPS'),
                                         ('REDUCE CHURN', 'REDUCE CHURN')]))
 
+      release = forms.ModelChoiceField(
+            queryset=Release.objects.all(),to_field_name='name',
+            widget=Select(attrs={'class': 'form-control',
+                                    'label':'Release'}))
+
       class Meta:
-            model = Goals
-            fields = ['name', 'description', 'goal_value', 'goal_type', 'actual_value', 'goal_due_date']
+            model = Goal
+            fields = ['name', 'description', 'goal_value', 'goal_type', 'goal_actual_value', 'goal_due_date', 'release']
+
+
+      def save(self,commit=True):
+            instance = super().save(commit=False)
+            instance.created_by = self.request.user
+            if commit:
+                  instance.save()
+            return instance

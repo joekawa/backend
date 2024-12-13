@@ -196,6 +196,7 @@ def create_activity(request):
     if request.method == 'POST':
         form = ReleaseActivityForm(request.POST)
         if form.is_valid():
+            form.request = request
             form.save()
             return redirect('bettergtm_backend:create_activity')
     else:
@@ -231,8 +232,11 @@ def create_goal(request):
     if request.method == 'POST':
         form = GoalsForm(request.POST)
         if form.is_valid():
+            form.request = request
             form.save()
+            print('saved goal')
             return redirect('bettergtm_backend:create_goal')
     else:
         form = GoalsForm()
+        print('diidnt save goal')
     return render(request, 'create_goal.html', {'form': form})

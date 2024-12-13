@@ -24,6 +24,9 @@ class Team(models.Model):
   short_name = models.CharField(max_length=10, null=True) #* Short name for team i.e. PMM for Product Marketing Managers
   description = models.TextField(null=True)
 
+  def __str__(self):
+    return self.name
+
 
   #* Permissions will be used to determine what a user can do
 class Permission(models.Model):
@@ -35,6 +38,9 @@ class Permission(models.Model):
 class Role(models.Model):
   name = models.CharField(max_length=100)
   description = models.TextField(null=True)
+
+  def __str__(self):
+    return self.name
 
 
 class Profile(models.Model):
@@ -83,8 +89,11 @@ class ReleaseActivity(models.Model):
                                  related_name="user_created_by")
   team_assignment = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
 
+  def __str__(self):
+    return self.name
 
-class Goals(models.Model):
+
+class Goal(models.Model):
   release = models.ForeignKey(Release, on_delete=models.CASCADE)
   name = models.CharField(max_length=100)
   description = models.TextField(null=True)
@@ -93,9 +102,13 @@ class Goals(models.Model):
   goal_type = models.CharField(max_length=100, null=True)
   actual_value = models.CharField(max_length=100, null=True)
   goal_due_date = models.DateField(null=True)
+  created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+  def __str__(self):
+    return self.name
 
 
-class Outputs(models.Model):
+class Output(models.Model):
   release_activity = models.ForeignKey(ReleaseActivity, on_delete=models.CASCADE)
   name = models.CharField(max_length=100, null=True)
   description = models.TextField(null=True)
