@@ -240,3 +240,20 @@ def create_goal(request):
         form = GoalsForm()
         print('diidnt save goal')
     return render(request, 'create_goal.html', {'form': form})
+
+
+@login_required
+def release_list_view(request):
+    releases = Release.objects.all()
+    return render(request, 'release_list.html',  {'releases': releases})
+
+
+@login_required
+def activity_list_view(request):
+    activities = ReleaseActivity.objects.all()
+    return render(request, 'activity_list.html',  {'activities': activities})
+
+@login_required
+def goal_list_view(request):
+    goals = Goal.objects.all()
+    return render(request, 'goal_list.html',  {'goals': goals})

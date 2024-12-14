@@ -31,4 +31,7 @@ urlpatterns = [
     path('create_release',  views.create_release  , name='create_release'),
     path('create_role',  views.create_role, name='create_role'),
     path('create_goal',  views.create_goal, name='create_goal'),
+    path('release_list',  views.release_list_view, name='release_list'),
+    path('activity_list',  views.activity_list_view, name='activity_list'),
+    path('goal_list',  views.goal_list_view, name='goal_list'),
 ]
