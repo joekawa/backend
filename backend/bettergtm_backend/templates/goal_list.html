@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+<h1 class="h3 mb-3 fw-normal">Goals</h1>
 <div class='table-responsive'>
   <table class="table table-striped mx-auto">
     <thead>
@@ -15,7 +15,7 @@
     <tbody>
       {% for g in goals %}
     <tr>
-      <td>{{ g.name }}</td>
+      <td><a href="{% url 'bettergtm_backend:goal_detail' g.id %}">{{ g.name }}</a></td>
       <td>{{ g.description }}</td>
       <td>{{ g.goal_value }}</td>
       <td>{{ g.actual_value }}</td>

@@ -234,7 +234,6 @@ def create_goal(request):
         if form.is_valid():
             form.request = request
             form.save()
-            print('saved goal')
             return redirect('bettergtm_backend:create_goal')
     else:
         form = GoalsForm()
@@ -257,3 +256,76 @@ def activity_list_view(request):
 def goal_list_view(request):
     goals = Goal.objects.all()
     return render(request, 'goal_list.html',  {'goals': goals})
+
+
+def release_detail(request, release_id):
+    release = Release.objects.get(id=release_id)
+    form = ReleaseForm(instance=release)
+
+    return render(request, 'release_detail.html', {'form': form, 'release': release})
+
+
+@login_required
+def update_release(request, release_id):
+    if request.method == 'POST':
+        release = Release.objects.get(id=release_id)
+        form = ReleaseForm(request.POST, instance=release)
+        if form.is_valid():
+            form.request = request
+            form.created_by = release.created_by
+            form.save()
+            return redirect('bettergtm_backend:release_detail', release_id=release.id)
+        else:
+            form = ReleaseForm(instance=release)
+            return render(request, 'release_detail.html',
+                        {'form': form})
+    return render(request, 'release_detail.html', {'form': form}) #*NEED TO FIX
+
+
+@login_required
+def update_activity(request, activity_id):
+    if request.method == 'POST':
+        activity = ReleaseActivity.objects.get(id=activity_id)
+        form = ReleaseActivityForm(request.POST, instance=activity)
+        if form.is_valid():
+            form.request = request
+            form.created_by = activity.created_by
+            form.save()
+            return redirect('bettergtm_backend:activity_detail', activity_id=activity.id)
+        else:
+            form = ReleaseForm(instance=release)
+            return render(request, 'activity_detail.html',
+                        {'form': form})
+    return render(request, 'activity_detail.html', {'form': form}) #*NEED TO FIX
+
+
+def activity_detail(request, activity_id):
+    activity = ReleaseActivity.objects.get(id=activity_id)
+    form = ReleaseActivityForm(instance=activity)
+
+    return render(request, 'activity_detail.html', {'form': form, 'activity': activity})
+
+
+def goal_detail(request, goal_id):
+    goal = Goal.objects.get(id=goal_id)
+    form = GoalsForm(instance=goal)
+
+    return render(request, 'goal_detail.html', {'form': form, 'goal': goal})
+
+
+#! NEED TO POPULATE RELEASE AND GOAL ACTUAL VALUE
+@login_required
+def update_goal(request, goal_id):
+    if request.method == 'POST':
+        goal = Goal.objects.get(id=goal_id)
+        form = GoalsForm(request.POST, instance=goal)
+        if form.is_valid():
+            form.request = request
+            form.created_by = goal.created_by
+            form.save()
+            return redirect('bettergtm_backend:goal_detail', goal_id=goal.id)
+        else:
+            form = ReleaseForm(instance=goal)
+            return render(request, 'goal_detail.html',
+                        {'form': form})
+    return render(request, 'goal_detail.html', {'form': form}) #*NEED TO FIX
