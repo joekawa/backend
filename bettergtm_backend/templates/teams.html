@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class='row'>
+  <div class='col'>
+<h1 class="h3 mb-3 fw-normal">Teams</h1>
+  </div>
+  <div class='col'>
+    <a href="{% url 'bettergtm_backend:create_team' %}" class="btn btn-primary">Add Team</a>
+  </div>
+</div>
+<div class='table-responsive'>
+    <table class="table table-striped mx-auto">
+      <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Short Name</th>
+        <th scope='col'>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for t in teams %}
+      <tr>
+        <td><a href="{% url 'bettergtm_backend:team_detail' t.id%}"">{{ t.name }}</a></td>
+        <td>{{ t.short_name }}</td>
+        <td>{{ t.description }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+    </table>
+  </div>
+{% endblock %}

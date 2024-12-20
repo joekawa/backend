@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-lg-8">
+  <div class="card-body py-5 px-md-5">
+
+    <form class="form-signin w-100 m-auto" method="POST"
+    action="{% url 'bettergtm_backend:create_release' %}">
+    {% csrf_token %}
+
+    <h1 class="h3 mb-3 fw-normal">Create Release</h1>
+    <div class='form-group' >
+        {{ form.as_p }}
+      </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Create Release</button>
+  </form>
+
+  </div>
+</div>
+</div>
+</div>
+{% endblock%}

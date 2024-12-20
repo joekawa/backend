@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="col-lg-8">
+  <div class="card-body py-5 px-md-5">
+
+    <form class="form-signin w-100 m-auto" method="POST"
+    action="{% url 'bettergtm_backend:update_release' release_id=release.id %}">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal">{{ release.name }}</h1>
+{{ form.as_p }}
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Update Release</button>
+  </form>
+
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}

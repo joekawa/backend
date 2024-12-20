@@ -1,0 +1,8 @@
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  align-items: stretch;
+  background-color: lightgray;
+  min-height: 100vh;
+}

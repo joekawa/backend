@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='row'>
+  <div class='col'>
+<h1 class="h3 mb-3 fw-normal">Customer List</h1>
+  </div>
+  <div class='col'>
+    <a href="{% url 'bettergtm_backend:create_customer' %}" class="btn btn-primary">Add Customer</a>
+  </div>
+</div>
+<div class='table-responsive'>
+  <table class="table table-striped mx-auto">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">City</th>
+      <th scope='col'>State</th>
+      <th scope="col">Country</th>
+      <th scope="col">Zip</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for c in customers %}
+    <tr>
+      <td><a href="{% url 'bettergtm_backend:customer_detail' c.id%}"">{{ c.name }}</a></td>
+      <td>{{ c.city }}</td>
+      <td>{{ c.state }}</td>
+      <td>{{ c.country }}</td>
+      <td>{{ c.zipcode }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+</div>
+
+
+{% endblock %}

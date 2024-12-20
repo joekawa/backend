@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class='row'>
+<div class='col'>
+  <h1 class="h3 mb-3 fw-normal">Activities</h1>
+</div>
+<div class='col'>
+  <a href="{% url 'bettergtm_backend:create_activity' %}" class="btn btn-primary">Add Activity</a>
+</div>
+<div class='table-responsive'>
+  <table class="table table-striped mx-auto">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+      <th scope='col'>Due Date</th>
+      <th scope="col">Status</th>
+      <th scope="col">Release</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for act in activities %}
+    <tr>
+      <td><a href ="{% url 'bettergtm_backend:activity_detail' act.id%}"">{{ act.name }}</a></td>
+      <td>{{ act.description }}</td>
+      <td>{{ act.due_date }}</td>
+      <td>{{ act.status }}</td>
+      <td>{{ act.release }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+</div>
+
+
+{% endblock %}
