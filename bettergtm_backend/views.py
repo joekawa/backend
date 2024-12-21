@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout, login, authenticate
 from .forms import *
-from .models import Profile, Customer
+from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView
@@ -359,12 +359,11 @@ def update_goal(request, goal_id):
 #* DIRECT USER TO ADMIN VIEW
 @login_required
 def admin_view(request):
-    Teams = Team.objects.all()
-    Users = User.objects.all()
-    ReleaseActivity = ReleaseActivity.objects.all()
-    Status = Status.objects.all()
+    teams = Team.objects.all()
+    users = User.objects.all().select_related('profile')
+    release_activity = ReleaseActivity.objects.all()
 
 
     return render(request, 'admin.html',
-                  {'Teams': Teams, 'Users': Users,
-                   'ReleaseActivity': ReleaseActivity, 'Status': Status})
+                  {'teams': teams, 'users': users,
+                   'release_activity': release_activity})

@@ -1,4 +1,118 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Admin</h1>
+<div class='row'>
+  <div class='col'>
+<h1 class="h3 mb-3 fw-normal">Users List</h1>
+  </div>
+  <div class='col'>
+    <a href="{% url 'bettergtm_backend:create_user' %}" class="btn btn-primary">Add User</a>
+  </div>
+</div>
+<div class='row'>
+<div class='table-responsive'>
+  <table class="table table-striped mx-auto">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Team</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for u in users %}
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.email }}</td>
+      <td>{{ u.profile.team }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  </div>
+</div>
+<div class='row'>
+  <div class='col'>
+<h1 class="h3 mb-3 fw-normal">Teams List</h1>
+  </div>
+  <div class='col'>
+    <a href="{% url 'bettergtm_backend:create_user' %}" class="btn btn-primary">Add Team</a>
+  </div>
+</div>
+<div class='row'>
+<div class='table-responsive'>
+  <table class="table table-striped mx-auto">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for t in teams %}
+    <tr>
+      <td>{{ t.name }}</td>
+      <td>{{ t.description }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  </div>
+</div>
+<div class='row'>
+  <div class='col'>
+<h1 class="h3 mb-3 fw-normal">Teams List</h1>
+  </div>
+  <div class='col'>
+    <a href="{% url 'bettergtm_backend:create_user' %}" class="btn btn-primary">Add Team</a>
+  </div>
+</div>
+<div class='row'>
+<div class='table-responsive'>
+  <table class="table table-striped mx-auto">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for t in teams %}
+    <tr>
+      <td>{{ t.name }}</td>
+      <td>{{ t.description }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  </div>
+</div>
+<div class='row'>
+  <div class='col'>
+<h1 class="h3 mb-3 fw-normal">Teams List</h1>
+  </div>
+  <div class='col'>
+    <a href="{% url 'bettergtm_backend:create_user' %}" class="btn btn-primary">Add Team</a>
+  </div>
+</div>
+<div class='row'>
+<div class='table-responsive'>
+  <table class="table table-striped mx-auto">
+    <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for ra in release_activity %}
+    <tr>
+      <td>{{ ra.name }}</td>
+      <td>{{ ra.description }}</td>
+      <td>{{ ra.release_type }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+  </div>
+</div>
 {% endblock %}

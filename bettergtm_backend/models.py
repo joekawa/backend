@@ -11,6 +11,11 @@ from django.contrib.auth.models import User
 #* Be assigned release activities, Process release activities
 #* BE PART OF A TEAM BUT MUST BE ASSIGNED TO A CUSTOMER
 
+
+#* Customer is a company that is using BetterGTM
+#* Customer can only access records that they've created
+#* Customer is the top of our user hierarchy.  Customers > Teams > Users
+
 class Customer(models.Model):
   name = models.CharField(max_length=100)
   city = models.CharField(max_length=100)
@@ -43,6 +48,7 @@ class Status(models.Model):
 
 
 #* Release Type is a collection of release activities
+#* Release types + release activities = a template to follow for go-to market planning
 class ReleaseType(models.Model):
   name = models.CharField(max_length=100)
   description = models.TextField(null=True)
@@ -83,15 +89,21 @@ class Release(models.Model):
 #* Tasks can be assigned to a user or team
 #* Expected to have certain outputs
 #* Must be completed by a certain date
+#! NEED TO FIGURE OUT HOW TO HANDLE TEMPLATE ASSIGNMENT VS ASSIGNING TO RELEASE
+#! FOR INSTANCE, COMPANY A HAS FOUR RELEASE TIERS.  RELEASE TYPE 1 HAS A SET
+#! OF RELEASE ACTIVITIES.  RELEASE TYPE 2 HAS A DIFFERENT SET OF RELEASE
+#! ACTIVITIES.  WHEN A RELEASE IS CREATED AND IT'S ASSIGNED TO A RELEASE TYPE
+#! WE NEED TO COPY THE TEMPLATED RELEASE ACTIVITIES TO THE NEW RELEASE AND
+#! ASSIGN THEM A DUE DATE
 
 class ReleaseActivity(models.Model):
   name = models.CharField(max_length=100)
   description = models.TextField(null=True)
-  due_date = models.DateField()
-  status = models.CharField(max_length=100) #*NEED TO SET AN ENUM FOR STATUS
+  due_date = models.DateField(null=True)
+  status = models.CharField(max_length=100, null=True) #*NEED TO SET AN ENUM FOR STATUS
   assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, null=True,
                                   related_name="user_assigned_to")
-  release = models.ForeignKey(Release, on_delete=models.CASCADE)
+  release = models.ForeignKey(Release, on_delete=models.CASCADE, null=True)
   created_by = models.ForeignKey(User, on_delete=models.CASCADE,
                                  related_name="user_created_by")
   team_assignment = models.ForeignKey(Team, on_delete=models.CASCADE, null=True)
